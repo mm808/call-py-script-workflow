@@ -1,7 +1,8 @@
 import boto3
 import requests
+import sys
 
-s3bucket = 'dev-lambda-alias'
+# s3bucket = 'dev-lambda-alias'
 
 def list_s3_objects(s3bucket):
     s3 = boto3.client('s3')
@@ -20,4 +21,8 @@ def list_s3_objects(s3bucket):
     except Exception as e:
         print(f"Error occurred: {str(e)}")
 
-list_s3_objects(s3bucket)
+if __name__ == "__main__":
+    s3bucket = sys.argv[1]
+    region = sys.argv[2]
+    print(f"Passed in bucket name: {s3bucket}. Region is {region}")
+    list_s3_objects(s3bucket, region)

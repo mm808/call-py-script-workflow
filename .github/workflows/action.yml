@@ -5,6 +5,7 @@ on:
 
 env:
   AWS_REGION: 'us-east-1'
+  BKT_ARG: 'dev-lambda-alias'
 
 permissions:
   id-token: write # this is needed to use OIDC token
@@ -37,4 +38,4 @@ jobs:
       - name: Run Python script
         run: |
           cd py_code
-          python list-objs.py
+          python list-objs.py "${{ env.BKT_ARG}}" "${{ env.AWS_REGION}}"
