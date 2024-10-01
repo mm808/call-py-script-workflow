@@ -39,6 +39,6 @@ jobs:
         run: |
           cd py_code
           # list_var="${{ env.BKT_ARG}}"
-          for i in "${{ env.BKT_ARG}}"; do
+          for i in ${{ env.BKT_ARG}}; do
             python list-objs.py $i "${{ env.AWS_REGION}}"
           done
