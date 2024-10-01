@@ -5,7 +5,7 @@ on:
 
 env:
   AWS_REGION: 'us-east-1'
-  BKT_ARG: 'dev-lambda-alias'
+  BKT_ARG: ('dev-lambda-alias' 'mm-808-dev-terraform-files')
 
 permissions:
   id-token: write # this is needed to use OIDC token
@@ -38,4 +38,6 @@ jobs:
       - name: Run Python script
         run: |
           cd py_code
-          python list-objs.py "${{ env.BKT_ARG}}" "${{ env.AWS_REGION}}"
+          for [[ i in "${{ env.BKT_ARG}}"]] do
+          python list-objs.py $i "${{ env.AWS_REGION}}"
+          done
