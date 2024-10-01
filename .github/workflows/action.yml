@@ -41,6 +41,6 @@ jobs:
           list_var=(${{ env.BKT_ARG }})
           region="${{ env.AWS_REGION }}"
 
-          for i in "list_var[@]"; do
+          for i in "${list_var[@]}"; do
             python list-objs.py $i $region
           done
