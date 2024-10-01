@@ -4,7 +4,7 @@ import sys
 
 # s3bucket = 'dev-lambda-alias'
 
-def list_s3_objects(s3bucket):
+def list_s3_objects(s3bucket, region):
     s3 = boto3.client('s3')
 
     try:
