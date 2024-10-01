@@ -7,6 +7,8 @@ import sys
 def list_s3_objects(s3bucket, region):
     s3 = boto3.client('s3')
 
+    print(f"We're echoing region: {region}")
+
     try:
         # List objects in the specified bucket
         response = s3.list_objects_v2(Bucket=s3bucket)
