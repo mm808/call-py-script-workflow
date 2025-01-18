@@ -1,7 +1,7 @@
 # call-py-script-workflow
 call a python script in workflow
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/mm808/call-py-script-workflow/action.yml?branch=main)
+![Build Status](https://img.shields.io/github/actions/workflow/status/mm808/call-py-script-workflow/Call%20python%20script%20workflow?branch=main)
 
 
 
