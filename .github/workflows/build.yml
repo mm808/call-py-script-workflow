@@ -17,30 +17,12 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v4
 
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          role-to-assume: arn:aws:iam::644028176319:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: us-east-1
-
       - name: Set up Python 3.x
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          cd py_code
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
       - name: Run Python script
         run: |
           cd py_code
-          list_var=(${{ env.BKT_ARG }})
-          region="${{ env.AWS_REGION }}"
-
-          for i in "${list_var[@]}"; do
-            python list-objs.py $i $region
-          done
+          python echo_items.py

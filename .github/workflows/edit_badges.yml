@@ -19,5 +19,12 @@ jobs:
   Edit_Badges:
     runs-on: ubuntu-latest
     steps:
-      - name: Git clone the repository
+      - name: Checkout the repository
         uses: actions/checkout@v4
+
+      - name: Get workflow info
+        run: |
+          echo "run_num=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+          echo "run_id=$GITHUB_RUN_ID" >> $ GITHUB_ENV
+
+      - name: edit badges
