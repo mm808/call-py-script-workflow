@@ -1,4 +1,4 @@
-name: Build
+name: Call python script workflow
 
 on:
   workflow_dispatch:
