@@ -5,14 +5,16 @@ on:
 
 env:
   AWS_REGION: 'us-east-1'
-  BKT_ARG: 'dev-lambda-alias mm-808-dev-terraform-files'
 
 permissions:
-  id-token: write # this is needed to use OIDC token
   contents: read
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    outputs: 
+      vers: ${{ steps.workflow_info.outputs.vers }}
+      
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
@@ -22,7 +24,18 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Python script
-        run: |
-          cd py_code
-          python echo_items.py
+      # - name: Run Python script
+      #   run: |
+      #     cd py_code
+      #     python echo_items.py
+
+      - name: Get workflow info
+        id: workflow_info
+        run: |          
+          echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+
+  edit-badges:
+    needs: run-script
+    uses: mm808/call-py-script-workflow/.github/workflows/edit_badges.yml@dev
+    with:
+      vers: ${{needs.run-script.outputs.vers}}

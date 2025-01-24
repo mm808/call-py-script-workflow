@@ -2,16 +2,23 @@ name: Edit badges
 
 on:
   workflow_dispatch:
+    inputs:
+      env_name:
+        type: string
+        required: true
+      vers:
+        type: string
+        required: true
+
   workflow_call:
     inputs:
-      env:
-        env_name:
-          type: string
-          required: true
-        vers:
-          type: string
-          required: true
-        
+      env_name:
+        type: string
+        required: true
+      vers:
+        type: string
+        required: true
+
 permissions:
   contents: read
 
@@ -22,9 +29,6 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
-      - name: Get workflow info
+      - name: construct new version
         run: |
-          echo "run_num=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
-          echo "run_id=$GITHUB_RUN_ID" >> $ GITHUB_ENV
-
-      - name: edit badges
+          echo ${{ inputs.vers }}
