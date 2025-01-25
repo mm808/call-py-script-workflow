@@ -36,13 +36,22 @@ jobs:
           echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
           echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
           echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT # same as branch because I don't have environments
-
-  edit-badges:
+  
+  echo-outputs:
     needs: run-script
-    uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@dev
-    with:
-      repo_name: ${{needs.run-script.outputs.repo_name}}
-      repo_branch: ${{needs.run-script.outputs.repo_branch}}
-      vers: ${{needs.run-script.outputs.vers}}
-      env_name: ${{needs.run-script.outputs.env_name}}
-      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug outputs
+        run: |
+          echo "Repo Name ${{needs.run-script.outputs.repo_name}}"
+          echo "E Name ${{needs.run-script.outputs.env_name}}"
+          
+  # edit-badges:
+  #   needs: run-script
+  #   uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@dev
+  #   with:
+  #     repo_name: ${{needs.run-script.outputs.repo_name}}
+  #     repo_branch: ${{needs.run-script.outputs.repo_branch}}
+  #     vers: ${{needs.run-script.outputs.vers}}
+  #     env_name: ${{needs.run-script.outputs.env_name}}
+  #     PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
