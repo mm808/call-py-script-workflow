@@ -33,10 +33,11 @@ jobs:
         id: workflow_info
         run: |          
           echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+          echo "env_name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
 
   edit-badges:
     needs: run-script
     uses: mm808/call-py-script-workflow/.github/workflows/edit_badges.yml@dev
     with:
       vers: ${{needs.run-script.outputs.vers}}
-      env_name: dev
+      env_name: ${{needs.run-script.outputs.env_name}}
