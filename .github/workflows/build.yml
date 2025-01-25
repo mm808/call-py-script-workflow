@@ -39,3 +39,4 @@ jobs:
     uses: mm808/call-py-script-workflow/.github/workflows/edit_badges.yml@dev
     with:
       vers: ${{needs.run-script.outputs.vers}}
+      env_name: dev
