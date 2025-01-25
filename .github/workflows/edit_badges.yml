@@ -32,3 +32,4 @@ jobs:
       - name: construct new version
         run: |
           echo ${{ inputs.vers }}
+          echo ${{ inputs.env_name }}
