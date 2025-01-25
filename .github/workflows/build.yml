@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs: 
       vers: ${{ steps.workflow_info.outputs.vers }}
+      env_name: ${{ steps.workflow_info.outputs.env_name }}
       
     steps:
       - name: Git clone the repository
