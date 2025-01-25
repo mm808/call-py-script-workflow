@@ -3,9 +3,6 @@ name: Build
 on:
   workflow_dispatch:
 
-env:
-  AWS_REGION: 'us-east-1'
-
 permissions:
   contents: read
 
@@ -34,7 +31,7 @@ jobs:
         id: workflow_info
         run: |          
           echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
-          echo "env_name=$GITHUB_HEAD_REF" >> $GITHUB_OUTPUT
+          echo "env_name=$GITHUB_REF#refs/heads/" >> $GITHUB_OUTPUT
 
   edit-badges:
     needs: run-script
