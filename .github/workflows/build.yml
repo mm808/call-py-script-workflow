@@ -10,6 +10,8 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     outputs: 
+      repo_name: ${{ steps.workflow_info.outputs.repo_name }}
+      repo_branch: ${{ steps.workflow_info.outputs.repo_branch }}
       vers: ${{ steps.workflow_info.outputs.vers }}
       env_name: ${{ steps.workflow_info.outputs.env_name }}
       
@@ -30,13 +32,16 @@ jobs:
       - name: Get workflow info
         id: workflow_info
         run: |          
+          echo "repo_name=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
+          echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_ENV
           echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
-          echo $GITHUB_REF | cut -d'/' -f3
-          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT # same as branch because I don't have environments
 
   edit-badges:
     needs: run-script
-    uses: mm808/call-py-script-workflow/.github/workflows/edit_badges.yml@dev
+    uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@dev
     with:
+      repo_name: ${{needs.run-script.outputs.repo_name}}
+      repo_branch: ${{needs.run-script.outputs.repo_branch}}
       vers: ${{needs.run-script.outputs.vers}}
       env_name: ${{needs.run-script.outputs.env_name}}
