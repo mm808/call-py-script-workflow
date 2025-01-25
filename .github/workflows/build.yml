@@ -31,7 +31,8 @@ jobs:
         id: workflow_info
         run: |          
           echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
-          echo "env_name=$(echo "$GITHUB_REF" | cut -d'/' -f3) >> $GITHUB_OUTPUT
+          echo $GITHUB_REF | cut -d'/' -f3
+          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
 
   edit-badges:
     needs: run-script
