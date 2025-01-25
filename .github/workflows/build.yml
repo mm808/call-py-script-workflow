@@ -39,7 +39,7 @@ jobs:
 
   edit-badges:
     needs: run-script
-    uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@main
+    uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@dev
     with:
       repo_name: ${{needs.run-script.outputs.repo_name}}
       repo_branch: ${{needs.run-script.outputs.repo_branch}}
