@@ -3,44 +3,45 @@ name: Build
 on:
   workflow_dispatch:
 
-env:
-  AWS_REGION: 'us-east-1'
-  BKT_ARG: 'dev-lambda-alias mm-808-dev-terraform-files'
-
 permissions:
-  id-token: write # this is needed to use OIDC token
   contents: read
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    outputs: 
+      repo_name: ${{ steps.workflow_info.outputs.repo_name }}
+      repo_branch: ${{ steps.workflow_info.outputs.repo_branch }}
+      vers: ${{ steps.workflow_info.outputs.vers }}
+      env_name: ${{ steps.workflow_info.outputs.env_name }}
+      
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
-
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          role-to-assume: arn:aws:iam::644028176319:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: us-east-1
 
       - name: Set up Python 3.x
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          cd py_code
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
       - name: Run Python script
         run: |
           cd py_code
-          list_var=(${{ env.BKT_ARG }})
-          region="${{ env.AWS_REGION }}"
+          python echo_items.py
 
-          for i in "${list_var[@]}"; do
-            python list-objs.py $i $region
-          done
+      - name: Get workflow info
+        id: workflow_info
+        run: |          
+          echo "repo_name=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_OUTPUT
+          echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+          echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT # same as branch because I don't have environments
+
+  edit-badges:
+    needs: run-script
+    uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@dev
+    with:
+      repo_name: ${{needs.run-script.outputs.repo_name}}
+      repo_branch: ${{needs.run-script.outputs.repo_branch}}
+      vers: ${{needs.run-script.outputs.vers}}
+      env_name: ${{needs.run-script.outputs.env_name}}
