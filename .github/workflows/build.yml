@@ -24,10 +24,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      # - name: Run Python script
-      #   run: |
-      #     cd py_code
-      #     python echo_items.py
+      - name: Run Python script
+        run: |
+          cd py_code
+          python echo_items.py
 
       - name: Get workflow info
         id: workflow_info
@@ -36,15 +36,6 @@ jobs:
           echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
           echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
           echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT # same as branch because I don't have environments
-  
-  # echo-outputs:
-  #   needs: run-script
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: debug outputs
-  #       run: |
-  #         echo "Repo Name ${{needs.run-script.outputs.repo_name}}"
-  #         echo "E Name ${{needs.run-script.outputs.env_name}}"
 
   edit-badges:
     needs: run-script
@@ -54,5 +45,3 @@ jobs:
       repo_branch: ${{needs.run-script.outputs.repo_branch}}
       vers: ${{needs.run-script.outputs.vers}}
       env_name: ${{needs.run-script.outputs.env_name}}
-    # secrets:
-    #   PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
