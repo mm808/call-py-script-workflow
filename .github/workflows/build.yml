@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   run-script:
@@ -26,15 +26,21 @@ jobs:
 
       - name: Run Python script
         run: |
+          set -eu
           cd py_code
           python echo_items.py
 
       - name: Get workflow info
         id: workflow_info
-        run: |          
+        run: |
+          set -eu
+          
+          RUN_ID=${GITHUB_RUN_ID:0:3}
+          echo "${RUN_ID}"
+
           echo "repo_name=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_OUTPUT
           echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
-          echo "vers=$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+          echo "vers=$GITHUB_RUN_NUMBER.$RUN_ID" >> $GITHUB_OUTPUT
           echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT # same as branch because I don't have environments
 
   edit-badges:
