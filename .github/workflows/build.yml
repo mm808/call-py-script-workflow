@@ -38,11 +38,11 @@ jobs:
           RUN_ID=${GITHUB_RUN_ID:0:3}
           echo "${RUN_ID}"
 
-          echo "repo_name=${GITHUB_REPOSITORY}" >> ${{ GITHUB_OUTPUT }}
-          echo "repo_branch="$(echo $GITHUB_REF | cut -d'/' -f3)" >> ${{ GITHUB_OUTPUT }}
-          echo "vers="${GITHUB_RUN_NUMBER}.${RUN_ID}" >> ${{ GITHUB_OUTPUT }}
-          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> ${{ GITHUB_OUTPUT }} # same as branch because I don't have environments in non Enterprise account
-          echo "job_status=${{ job.status }}" >> ${{ GITHUB_OUTPUT }}
+          echo "repo_name=${GITHUB_REPOSITORY}" >> $GITHUB_OUTPUT
+          echo "repo_branch="$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+          echo "vers="${GITHUB_RUN_NUMBER}.${RUN_ID}" >> $GITHUB_OUTPUT
+          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT # same as branch because I don't have environments in non Enterprise account
+          echo "job_status=${{ job.status }}" >> $GITHUB_OUTPUT
 
   edit-badges:
     if: always()
