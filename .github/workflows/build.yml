@@ -38,16 +38,17 @@ jobs:
           set -eu
 
           RUN_NUM=${GITHUB_RUN_NUMBER}
-          echo "${RUN_NUM}"
           RUN_ID=${GITHUB_RUN_ID:0:3}
-          echo "${RUN_ID}"
           vers="${RUN_NUM}.${RUN_ID}"
+          echo "${vers}"
 
           echo "repo_name=${GITHUB_REPOSITORY}" >> $GITHUB_OUTPUT
-          echo "repo_branch="$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+          echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
           echo "vers=${vers}" >> $GITHUB_OUTPUT
           echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
-          echo "job_status=${job.status}" >> $GITHUB_OUTPUT
+          echo "job_status=${JOB_STATUS}" >> $GITHUB_OUTPUT
+        env:
+          JOB_STATUS: ${{ job.status }}
 
   edit-badges:
     if: always()
