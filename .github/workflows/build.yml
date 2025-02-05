@@ -31,6 +31,7 @@ jobs:
           python echo_items.py
 
       - name: Get workflow info
+        if: always()
         id: workflow_info
         run: |
           set -eu
