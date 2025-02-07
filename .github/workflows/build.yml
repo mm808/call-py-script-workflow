@@ -28,7 +28,7 @@ jobs:
       - name: Run Python script
         run: |
           set -eu
-          cd p_code
+          cd py_code
           python echo_items.py
 
       - name: Get workflow info
@@ -40,8 +40,6 @@ jobs:
           RUN_NUM=${GITHUB_RUN_NUMBER}
           RUN_ID=${GITHUB_RUN_ID:0:3}
           vers="${RUN_NUM}.${RUN_ID}"
-          echo "${vers}"
-
           echo "repo_name=${GITHUB_REPOSITORY}" >> $GITHUB_OUTPUT
           echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
           echo "vers=${vers}" >> $GITHUB_OUTPUT
