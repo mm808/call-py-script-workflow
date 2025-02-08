@@ -28,7 +28,7 @@ jobs:
       - name: Run Python script
         run: |
           set -eu
-          cd y_code
+          cd py_code
           python echo_items.py
 
       - name: Get workflow info
