@@ -30,31 +30,3 @@ jobs:
           set -eu
           cd py_code
           python echo_items.py
-
-      - name: Get workflow info
-        if: always()
-        id: workflow_info
-        run: |
-          set -eu
-
-          RUN_NUM=${GITHUB_RUN_NUMBER}
-          RUN_ID=${GITHUB_RUN_ID:0:3}
-          vers="${RUN_NUM}.${RUN_ID}"
-          echo "repo_name=${GITHUB_REPOSITORY}" >> $GITHUB_OUTPUT
-          echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
-          echo "vers=${vers}" >> $GITHUB_OUTPUT
-          echo "env_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
-          echo "job_status=${JOB_STATUS}" >> $GITHUB_OUTPUT
-        env:
-          JOB_STATUS: ${{ job.status }}
-
-  edit-badges:
-    if: always()
-    needs: run-script
-    uses: mm808/update_readme_badges/.github/workflows/edit_badges.yml@dev
-    with:
-      repo_name: ${{needs.run-script.outputs.repo_name}}
-      repo_branch: ${{needs.run-script.outputs.repo_branch}}
-      vers: ${{needs.run-script.outputs.vers}}
-      env_name: ${{needs.run-script.outputs.env_name}}
-      job_status: ${{needs.run-script.outputs.job_status}}
