@@ -12,5 +12,4 @@ Sample repo that calls a python script in workflow.
 
 ### MAIN
 
-![GitHub Actions Workflow Status](![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mm808/call-py-script-workflow/build.yml?branch=main&style=for-the-badge)
-)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mm808/call-py-script-workflow/build.yml?branch=main&style=for-the-badge)
