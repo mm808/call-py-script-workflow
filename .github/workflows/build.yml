@@ -2,6 +2,13 @@ name: Build
 
 on:
   workflow_dispatch:
+    inputs:
+      env_name:
+        description: "Environment name"
+        type: string
+        default: dev
+        options: [dev, prod]
+        required: true
 
 permissions:
   contents: write
@@ -23,6 +30,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
+
+      - name: Echo environment and branch
+        run: |
+          echo "Environment: ${{ inputs.env_name }}"
+          echo "Repo branch: ${{ github.ref }}"
 
       - name: Run Python script
         run: |
