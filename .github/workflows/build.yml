@@ -52,6 +52,7 @@ jobs:
           vers="${RUN_NUM}.${RUN_ID}"
           echo "repo_name=${GITHUB_REPOSITORY}" >> $GITHUB_OUTPUT
           echo "repo_branch=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+          echo "repo_owner=(echo $GITHUB_REPOSITORY | cut -d'/' -f1)" >> $GITHUB_OUTPUT
           echo "vers=${vers}" >> $GITHUB_OUTPUT
 
   edit-vers-badge:
@@ -61,4 +62,5 @@ jobs:
     with:
       repo_name: ${{needs.run-script.outputs.repo_name}}
       repo_branch: ${{needs.run-script.outputs.repo_branch}}
+      repo_owner: ${{needs.run-script.outputs.repo_owner}}
       vers: ${{needs.run-script.outputs.vers}}
