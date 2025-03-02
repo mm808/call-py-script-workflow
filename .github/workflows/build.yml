@@ -57,8 +57,8 @@ jobs:
   edit-vers-badge:
     if: always()
     needs: run-script
-    uses: mm808/update_readme_badges/.github/workflows/edit_vers_badge.yml@dev
+    uses: mm808/update_readme_badges/.github/workflows/edit_vers_badge.yml@main
     with:
       repo_name: ${{needs.run-script.outputs.repo_name}}
-      repo_branch: ${{needs.run-script.outputs.repo_branch}}
+      repo_branch: docs
       vers: ${{needs.run-script.outputs.vers}}
