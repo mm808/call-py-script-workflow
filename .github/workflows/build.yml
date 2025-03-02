@@ -60,5 +60,5 @@ jobs:
     uses: mm808/update_readme_badges/.github/workflows/edit_vers_badge.yml@main
     with:
       repo_name: ${{needs.run-script.outputs.repo_name}}
-      repo_branch: docs
+      repo_branch: ${{needs.run-script.outputs.repo_branch}}
       vers: ${{needs.run-script.outputs.vers}}
